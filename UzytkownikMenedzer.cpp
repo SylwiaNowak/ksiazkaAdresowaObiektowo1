@@ -1,5 +1,45 @@
 #include "UzytkownikMenedzer.h"
 
+char UzytkownikMenedzer::wybierzOpcjeZMenuGlownego(){
+    MetodyPomocnicze metodyPomocnicze;
+    char wybor;
+
+    system("cls");
+    cout << "    >>> MENU  GLOWNE <<<" << endl;
+    cout << "---------------------------" << endl;
+    cout << "1. Rejestracja" << endl;
+    cout << "2. Logowanie" << endl;
+    cout << "9. Koniec programu" << endl;
+    cout << "---------------------------" << endl;
+    cout << "Twoj wybor: ";
+    wybor = metodyPomocnicze.wczytajZnak();
+
+    return wybor;
+}
+
+char UzytkownikMenedzer::wybierzOpcjeZMenuUzytkownika() {
+    MetodyPomocnicze metodyPomocnicze;
+    char wybor;
+
+    system("cls");
+    cout << " >>> MENU UZYTKOWNIKA <<<" << endl;
+    cout << "---------------------------" << endl;
+    cout << "1. Dodaj adresata" << endl;
+    cout << "2. Wyszukaj po imieniu" << endl;
+    cout << "3. Wyszukaj po nazwisku" << endl;
+    cout << "4. Wyswietl adresatow" << endl;
+    cout << "5. Usun adresata" << endl;
+    cout << "6. Edytuj adresata" << endl;
+    cout << "---------------------------" << endl;
+    cout << "7. Zmien haslo" << endl;
+    cout << "8. Wyloguj sie" << endl;
+    cout << "---------------------------" << endl;
+    cout << "Twoj wybor: ";
+    wybor = metodyPomocnicze.wczytajZnak();
+
+    return wybor;
+}
+
 void UzytkownikMenedzer::rejestracjaUzytkownika() {
     Uzytkownik uzytkownik = podajDaneNowegoUzytkownika();
 
@@ -55,148 +95,94 @@ void UzytkownikMenedzer::wypiszWszystkichUzytkownikow() {
     }
 }
 
-void UzytkownikMenedzer::wczytajUzytkownikowZPliku()
-{
-    uzytkownicy = plikZUzytkownikami.wczytajUzytkownikowZPliku();
-}
-
-int UzytkownikMenedzer::logowanieUzytkownika() {
-    Uzytkownik uzytkownik;
+void UzytkownikMenedzer::logowanieUzytkownika() {
+    //Uzytkownik uzytkownik;
     string login = "", haslo = "";
 
     cout << endl << "Podaj login: ";
-    cin >> login;
-    uzytkownik.ustawLogin(login);
+    login = MetodyPomocnicze::wczytajLinie();
 
-    //vector <Uzytkownik>::iterator itr = uzytkownicy.begin();
-    //while (itr != uzytkownicy.end())
-    for (int i = 0; i < uzytkownicy.size(); i++)
+    vector <Uzytkownik>::iterator itr = uzytkownicy.begin();
+    while (itr != uzytkownicy.end())
+        //for (int i = 0; i < uzytkownicy.size(); i++)
     {
-        if (uzytkownicy[i].pobierzLogin() == login)
-        {
-            for (int iloscProb = 3; iloscProb > 0; iloscProb--)
-            {
+        if (itr -> pobierzLogin() == login) {
+            for (int iloscProb = 3; iloscProb > 0; iloscProb--) {
                 cout << "Podaj haslo. Pozostalo prob: " << iloscProb << ": ";
-                cin >> haslo;
-                uzytkownik.ustawHaslo(haslo);
+                haslo = MetodyPomocnicze::wczytajLinie();
 
-                if (uzytkownicy[i].pobierzHaslo() == haslo)
-                {
+                if (itr -> pobierzHaslo() == haslo) {
+                    idZalogowanegoUzytkownika = itr -> pobierzId();
                     cout << endl << "Zalogowales sie." << endl << endl;
-                    //system("pause");
-                    wyswietlPanelUzytkownika();
-                    return uzytkownicy[i].pobierzId();
+                    system("pause");
+                    //void uruchomOpcjeZMenuUzytkownika();
+                    //idZalogowanegoUzytkownika = uzytkownicy[i].pobierzId();
+                    return;
                 }
             }
             cout << "Wprowadzono 3 razy bledne haslo." << endl;
             system("pause");
-            return 0;
+            return;
         }
+        itr++;
     }
     cout << "Nie ma uzytkownika z takim loginem" << endl << endl;
     system("pause");
-    return 0;
-};
-
-char UzytkownikMenedzer::wybierzOpcjeZMenuUzytkownika() {
-    //char wybor;
-
-    system("cls");
-    cout << " >>> MENU UZYTKOWNIKA <<<" << endl;
-    cout << "---------------------------" << endl;
-    cout << "1. Dodaj adresata" << endl;
-    cout << "2. Wyszukaj po imieniu" << endl;
-    cout << "3. Wyszukaj po nazwisku" << endl;
-    cout << "4. Wyswietl adresatow" << endl;
-    cout << "5. Usun adresata" << endl;
-    cout << "6. Edytuj adresata" << endl;
-    cout << "---------------------------" << endl;
-    cout << "7. Zmien haslo" << endl;
-    cout << "8. Wyloguj sie" << endl;
-    cout << "---------------------------" << endl;
-    cout << "Twoj wybor: ";
-    wybor = wczytajZnak();
-
-    return wybor;
+    return;
 }
 
-void UzytkownikMenedzer::wyswietlPanelUzytkownika() {
+/*void UzytkownikMenedzer::ustawIdZalogowanegoUzytkownika(int aktualneId) {
+    return idZalogowanegoUzytkownika = aktualneId;
+}*/
 
-    wybor = wybierzOpcjeZMenuUzytkownika();
 
-            switch (wybor)
-            {
-            /*case '1':
-                idOstatniegoAdresata = dodajAdresata(adresaci, idZalogowanegoUzytkownika, idOstatniegoAdresata);
-                break;*/
-            /*case '2':
-                wyszukajAdresatowPoImieniu(adresaci);
-                break;
-            case '3':
-                wyszukajAdresatowPoNazwisku(adresaci);
-                break;
-            case '4':
-                wyswietlWszystkichAdresatow(adresaci);
-                break;
-            case '5':
-                idUsunietegoAdresata = usunAdresata(adresaci);
-                idOstatniegoAdresata = podajIdOstatniegoAdresataPoUsunieciuWybranegoAdresata(idUsunietegoAdresata, idOstatniegoAdresata);
-                break;
-            case '6':
-                edytujAdresata(adresaci);
-                break;*/
-            /*case '7':
-                zmianaHaslaZalogowanegoUzytkownika(uzytkownicy, idZalogowanegoUzytkownika);
-                break;*/
-            case '8':
-                idZalogowanegoUzytkownika = 0;
-                //adresaci.clear();
-                break;
-            }
-}
 
-char UzytkownikMenedzer::wczytajZnak()
-{
-    string wejscie = "";
-    char znak  = {0};
 
-    while (true)
-    {
-        cin.clear();
-        cin.sync();
-        //cin.ignore();
-        getline(cin, wejscie);
+/*void UzytkownikMenedzer::uruchomOpcjeZMenuUzytkownika() {
 
-        if (wejscie.length() == 1)
-        {
-            znak = wejscie[0];
-            break;
-        }
-        else cout << "To nie jest pojedynczy znak. Wpisz ponownie." << endl;
+    adresatMenedzer.uruchomOpcjeZMenuUzytkownika();
+}*/
 
-        //cin.sync();
-        cin.clear();
-        cin.ignore();
-    }
-    return znak;
-}
-
-void UzytkownikMenedzer::zmianaHaslaZalogowanegoUzytkownika(int idZalogowanegoUzytkownika) {
-    Uzytkownik uzytkownik;
+void UzytkownikMenedzer::zmianaHaslaZalogowanegoUzytkownika() {
+    //Uzytkownik uzytkownik;
     string noweHaslo = "";
     cout << "Podaj nowe haslo: ";
     cin >> noweHaslo;
-    uzytkownik.ustawHaslo(noweHaslo);
+    //uzytkownik.ustawHaslo(noweHaslo);
 
-    //for (vector <Uzytkownik>::iterator itr = uzytkownicy.begin(); itr != uzytkownicy.end(); itr++)
-    for (int i = 0; i < uzytkownicy.size(); i++)
-    {
-        if (uzytkownicy[i].pobierzId() == idZalogowanegoUzytkownika)
-        {
-            uzytkownicy[i].pobierzHaslo() = noweHaslo;
-            cout << "Haslo zostalo zmienione." << endl << endl;
-            system("pause");
+
+    if (czyUzytkownikJestZalogowany()) {
+        for (vector <Uzytkownik>::iterator itr = uzytkownicy.begin(); itr != uzytkownicy.end(); itr++) {
+            //for (int i = 0; i < uzytkownicy.size(); i++) {
+            if (itr -> pobierzId() == idZalogowanegoUzytkownika) {
+                itr -> ustawHaslo(noweHaslo);
+                cout << "Haslo zostalo zmienione." << endl << endl;
+                system("pause");
+            }
         }
+        plikZUzytkownikami.zapiszWszystkichUzytkownikowDoPliku(uzytkownicy);
+    } else {
+        cout << "Aby zmienic haslo, nalezy sie najpierw zalogowac" << endl;
+        system("pause");
     }
-    //zapiszWszystkichUzytkownikowDoPliku(uzytkownicy);
 }
+
+void UzytkownikMenedzer::wylogowanieUzytkownika() {
+    idZalogowanegoUzytkownika = 0;
+}
+
+bool UzytkownikMenedzer::czyUzytkownikJestZalogowany() {
+    if (idZalogowanegoUzytkownika > 0)
+        return true;
+    else
+        return false;
+}
+
+int UzytkownikMenedzer::pobierzIdZalogowanegoUzytkownika() {
+    return idZalogowanegoUzytkownika;
+}
+
+/*int UzytkownikMenedzer::wyswietlIdZalogowanegoUzytkownika() {
+    return idZalogowanegoUzytkownika;
+}*/
+
