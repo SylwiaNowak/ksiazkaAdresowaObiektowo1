@@ -131,25 +131,12 @@ void UzytkownikMenedzer::logowanieUzytkownika() {
     return;
 }
 
-/*void UzytkownikMenedzer::ustawIdZalogowanegoUzytkownika(int aktualneId) {
-    return idZalogowanegoUzytkownika = aktualneId;
-}*/
-
-
-
-
-/*void UzytkownikMenedzer::uruchomOpcjeZMenuUzytkownika() {
-
-    adresatMenedzer.uruchomOpcjeZMenuUzytkownika();
-}*/
-
 void UzytkownikMenedzer::zmianaHaslaZalogowanegoUzytkownika() {
     //Uzytkownik uzytkownik;
     string noweHaslo = "";
     cout << "Podaj nowe haslo: ";
     cin >> noweHaslo;
     //uzytkownik.ustawHaslo(noweHaslo);
-
 
     if (czyUzytkownikJestZalogowany()) {
         for (vector <Uzytkownik>::iterator itr = uzytkownicy.begin(); itr != uzytkownicy.end(); itr++) {
@@ -181,8 +168,3 @@ bool UzytkownikMenedzer::czyUzytkownikJestZalogowany() {
 int UzytkownikMenedzer::pobierzIdZalogowanegoUzytkownika() {
     return idZalogowanegoUzytkownika;
 }
-
-/*int UzytkownikMenedzer::wyswietlIdZalogowanegoUzytkownika() {
-    return idZalogowanegoUzytkownika;
-}*/
-
